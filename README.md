@@ -36,4 +36,4 @@ A web application that automatically analyzes resumes against a job description,
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/ai-resume-screening.git
-cd ai-resume-screening
+cd ai-resume-screening# Ai-Resume-Screening
