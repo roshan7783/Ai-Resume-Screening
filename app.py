@@ -1,14 +1,46 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+import os
 from datetime import datetime
-from resume_parser import extract_text
-from matcher import extract_skills, match_resume
-from skills import SKILLS
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-import os
+import PyPDF2
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# ---------------- SKILLS ----------------
+SKILLS = [
+    "python", "java", "machine learning",
+    "data science", "sql", "mongodb",
+    "flask", "react", "html", "css", "javascript"
+]
+
+# ---------------- RESUME PARSER ----------------
+def extract_text(file):
+    reader = PyPDF2.PdfReader(file)
+    text = ""
+    for page in reader.pages:
+        if page.extract_text():
+            text += page.extract_text()
+    return text.lower()
+
+# ---------------- MATCHER ----------------
+def extract_skills(text, skills):
+    found = []
+    for skill in skills:
+        if skill in text:
+            found.append(skill)
+    return found
+
+def match_resume(resume_text, job_desc):
+    if not job_desc: # Handle empty job description
+        return 0.0
+    vectorizer = TfidfVectorizer()
+    vectors = vectorizer.fit_transform([resume_text, job_desc])
+    score = cosine_similarity(vectors[0:1], vectors[1:2])
+    return round(score[0][0] * 100, 2)
 
 # ---------------- LOAD ENV ----------------
 load_dotenv()
