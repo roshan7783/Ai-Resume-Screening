@@ -26,6 +26,23 @@ body {
     color: #333;
 }
 
+/* Logout Button */
+.dashboard-container .logout-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #dc3545; /* Red background */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.dashboard-container .logout-btn:hover {
+    background-color: #000000; /* Black hover effect */
+}
+
 /* Table wrapper for horizontal scroll */
 .table-wrapper {
     width: 100%;

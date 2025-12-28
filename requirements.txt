@@ -3,3 +3,5 @@ PyPDF2
 scikit-learn
 pymongo
 python-dotenv
+flask-bcrypt
+flask-login
